@@ -1,8 +1,7 @@
 <template>
   <div class="home">
-    <img src="../assets/logo.png">
-    <!--<HelloWorld msg="Welcome to JanloongDoo's Test"/>-->
-    <HelloWorld :msg="msgs"/>
+    <img alt="Vue logo" src="../assets/logo.png" />
+    <HelloWorld :msg="msgs" />
   </div>
 </template>
 

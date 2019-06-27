@@ -1,18 +1,18 @@
 <template>
-    <p>{{name2.text}}</p>
+  <p>{{todoName.text}}</p>
 </template>
 
 <script>
-    export default {
-        name: "TodoList"
-        , props: {
-            name2: String
-        },
-    }
+  export default {
+    name: "TodoList"
+    , props: {
+      todoName: Object
+    },
+  }
 
 </script>
 
 <style lang="stylus" scoped>
-    p
-        color red
+  p
+    color red
 </style>
