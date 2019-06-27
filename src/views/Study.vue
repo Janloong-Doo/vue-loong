@@ -2,10 +2,7 @@
   <!--  <div id="study">-->
   <div class="bk-inner">
     <div :title="sup">悬停titile</div>
-    <!--    <span>-->
     <div>数值渲染: {{name}}</div>
-    <!--    </span>-->
-    <!--<p v-bind:title="sup">悬停有惊喜</p>-->
     <div>
       <button v-on:click="seenAble">看美女</button>
       &nbsp
@@ -41,13 +38,14 @@
       <input v-model.trim="requesturl" placeholder="请求url"><br>
       <button v-on:click="requestUrl">提交
       </button>
+      <br>
+      <a>{{resultD}}</a>
     </div>
   </div>
 </template>
 <script>
   import todolist from "../components/TodoList";
   import axios from 'axios';
-
 
   export default {
     name: "study",
@@ -60,6 +58,7 @@
         , ddd: "点击有惊喜"
         , name2: "双向绑定"
         , requesturl: ''
+        , resultD: ''
       };
     },
     props: {
@@ -78,8 +77,8 @@
       },
       requestUrl() {
         if (this.requesturl === '' || this.requesturl == null) {
-          this.requesturl = "http://localhost:8080/login"
-          // this.requesturl = "http://168.130.1.33:11001/authcenter/sysUser/login"
+          // this.requesturl = "http://localhost:8080/login"
+          this.requesturl = "http://168.130.1.33:11001/authcenter/sysUser/login"
         }
         let param = {
           'username': "admin",
@@ -91,36 +90,47 @@
           }
         };
 
-        axios({
-
-            method: 'post',
-            url: "http://localhost:8080/doo",
-            data: {
-              name: 'admin'
+        axios.post(
+          this.requesturl,
+          {
+            username: "admin",
+            password: "admin"
+          },
+          {
+            header: {
+              'Content-Type': 'application/x-www-form-urlencoded'
             }
-            // {
-            //   header: {
-            //     'Content-Type': 'application/x-www-form-urlencoded'
-            //   }
-            // }
           }
-        ).then(function (response) {
+        ).then(res => {
           console.log("成功");
-          console.log(response)
-          // if (success) {
-          //   console.log(response)
-          // }
-        }).catch(function (response) {
-          console.log("错误");
-          console.log(response)
+          console.log(res.data);
+          this.resultD = res.data;
+        }).catch(res => {
+          console.log("失败");
+          console.log(res.data);
+          this.resultD = res.data;
+
         })
+        // then(function (response) {
+        //   console.log("成功");
+        //   console.log(response)
+        //   // if (success) {
+        //   //   console.log(response)
+        //   // }
+        // })
+        //   .catch(function (response) {
+        //   console.log("错误");
+        //   console.log(response)
+        // })
       }
     }
-    , components: {
+    ,
+    components: {
       todolist: todolist
     }
 
-  };
+  }
+  ;
 </script>
 
 <style lang="stylus" scoped>
