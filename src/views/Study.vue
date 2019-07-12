@@ -23,7 +23,7 @@
       <todolist v-for="(a,i) in todo " v-bind:key="i" v-bind:todo-name="a"></todolist>
     </div>
     <div>
-      <el-table border="1">
+      <el-table>
         <el-row>
           <el-table-column label="1"/>
           <el-table-column label="2"/>
@@ -35,7 +35,8 @@
       </el-table>
     </div>
     <div>
-      <el-input v-model.trim="requesturl" placeholder="请求url" /><br>
+      <el-input v-model.trim="requesturl" placeholder="请求url"/>
+      <br>
       <el-radio-group v-model="requestMethod" size="small">
         <el-radio-button label="get"></el-radio-button>
         <el-radio-button label="post"></el-radio-button>
@@ -44,8 +45,8 @@
       </el-button>
       <br>
       <a>{{resultD}}</a><br>
-      <el-button v-on:click="requestUrl2">测试请求
-      </el-button>
+      <br>
+      <el-button v-on:click="requestUrl3">测试请求2</el-button>
     </div>
   </div>
 </template>
@@ -54,6 +55,9 @@
   import axios from 'axios';
   import qs from 'qs';
   import {Message} from 'element-ui';
+  import signMd5Utils from "../assets/js/signMd5Utils";
+  import axiosutils from "../assets/js/AxiosUtil.js";
+
 
   export default {
     name: "study",
@@ -120,22 +124,33 @@
           });
         }
       },
-      requestUrl2() {
-        var url = "https://127.0.0.1:8082/gk/getAppInfo?name=&type=app&startTime=2019-07-01&endTime=2019-07-04&pageNum=0";
-        axios.get(url).then(res => {
-          console.log("成功");
-          console.log(res.data);
-          Message.success("成功");
-          // this.resultD = res.data;
-
-        }).catch(res => {
-          console.log("失败");
-          console.log(res.data);
-          // this.resultD = res.data;
-          Message.error("失败")
-        })
+      requestUrl3() {
+        console.log("ceshia");
+        let name = "doo";
+        let address = "bj";
+        let url = "http://localhost:8080/sign";
+        let pp = {
+          name: name,
+          address: address,
+        };
+        let sign = signMd5Utils.getSign(url, pp);
+        pp = {
+          name: name,
+          address: address,
+          sign: sign
+        };
+        axiosutils.get(url, pp,
+          success => {
+            console.log("成功");
+            console.log(success);
+            this.resultD = success;
+            Message.success(success);
+          },
+          error => {
+            Message.error(error);
+          }
+        )
       },
-
       getTest(url, params) {
         axios.get(url).then(res => {
           console.log("成功");

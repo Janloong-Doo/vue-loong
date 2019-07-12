@@ -2,7 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import axiosutil from './assets/js/AxiosUtil';
+import axiosutil from './assets/js/AxiosInterceptor';
 import elementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 

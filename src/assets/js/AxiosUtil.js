@@ -1,32 +1,52 @@
-import axios from 'axios'
-import {Message} from 'element-ui'
+import axios from "axios";
+import qs from 'qs';
 
-axios.interceptors.request.use(config => {
-  return config;
-}, err => {
-  Message.error({message: '请求超时!'});
-});
-axios.interceptors.response.use(data => {
-  if (data.status && data.status === 200 && data.data.status === 500) {
-    Message.error({message: data.data.msg});
-    return;
+export default class AxiosUtil {
+
+  static get(url, param, success, error) {
+
+    param = param == null ? {} : {params: param};
+    console.log(param);
+    axios.get(url, param).then(
+      function (response) {
+        if (success) {
+          success(response.data);
+        }
+      }
+    ).catch(function (response) {
+        if (response.response.status == '401') {
+          sessionStorage.clear()
+          error(response.data);
+        }
+        if (error) {
+          error(response.data);
+        }
+      }
+    )
   }
-  if (data.data.msg) {
-    Message.success({message: data.data.msg});
+
+  static post(url, param, success, error) {
+    param = param == null ? {} : param;
+    let config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }
+    };
+    axios.post(url, qs.stringify(param), config)
+      .then(function (response) {
+        //console.log(response)
+        if (success) {
+          success(response.data);
+        }
+      })
+      .catch(function (response) {
+        if (response.response.status == '401') {
+          sessionStorage.clear()
+          error(response.data);
+        }
+        if (error) {
+          error(response.data);
+        }
+      });
   }
-  return data.data;
-}, err => {
-  if (err.response.status === 504 || err.response.status === 404) {
-    Message.error({message: '服务器被吃了⊙﹏⊙∥'});
-  } else if (err.response.status === 403) {
-    Message.error({message: '权限不足,请联系管理员!'});
-  } else if (err.response.status === 401) {
-    Message.error({message: err.response.data.msg});
-  } else {
-    if (err.response.data.msg) {
-      Message.error({message: err.response.data.msg});
-    } else {
-      Message.error({message: '未知错误!'});
-    }
-  }
-});
+}
