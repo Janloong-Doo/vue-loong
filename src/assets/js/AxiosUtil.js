@@ -32,21 +32,30 @@ export default class AxiosUtil {
         'Content-Type': 'application/x-www-form-urlencoded',
       }
     };
-    axios.post(url, qs.stringify(param), config)
-      .then(function (response) {
-        //console.log(response)
-        if (success) {
-          success(response.data);
-        }
+
+    return new Promise((resolve, reject) => {
+      axios.post(url, qs.stringify(param), config)
+        .then(res => {
+          resolve(res)
+        }).catch(res => {
+        reject(res)
       })
-      .catch(function (response) {
-        if (response.response.status == '401') {
-          sessionStorage.clear()
-          error(response.data);
-        }
-        if (error) {
-          error(response.data);
-        }
-      });
+    });
+    // axios.post(url, qs.stringify(param), config)
+    //   .then(function (response) {
+    //     //console.log(response)
+    //     if (success) {
+    //       success(response.data);
+    //     }
+    //   })
+    //   .catch(function (response) {
+    //     if (response.response.status == '401') {
+    //       sessionStorage.clear()
+    //       error(response.data);
+    //     }
+    //     if (error) {
+    //       error(response.data);
+    //     }
+    //   });
   }
 }

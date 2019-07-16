@@ -2,15 +2,13 @@
   <div id="app">
     <div id="nav">
       <span>
+      <span v-bind:title="tips">
+            <router-link :to="{path: '/study'}">Study</router-link>
+            </span>
+      </span>|
       <router-link to="/">Home</router-link>
       |
-      <router-link to="/about">About</router-link>
-      |
-        <!--      <span v-bind:title="'tips: 学习测试页面 , ' +new Date().toLocaleString()">-->
-      <span v-bind:title="tips">
-            <router-link :to="{path: '/study'}">study</router-link>
-            </span>
-      </span>
+      <router-link to="/spring">Spring</router-link>
     </div>
     <router-view class="c-border"/>
   </div>
@@ -41,14 +39,9 @@
     -moz-osx-font-smoothing grayscale
     color #2c3e50
 
-    div
-      text-align center
-
-    router-view
-      text-align left
-
   #nav
     padding 30px
+    text-align center
 
     a
       font-weight bold

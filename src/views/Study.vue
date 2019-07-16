@@ -1,41 +1,52 @@
 <template>
-  <!--  <div id="study">-->
-  <div class="bk-inner">
-    <div :title="sup">悬停titile</div>
-    <div>数值渲染: {{name}}</div>
+  <div id="study" class="bk-inner">
     <div>
-      <button v-on:click="seenAble">看美女</button>
-      &nbsp
-      <a v-if="seen">美女来了!!!</a>
-      <a v-if="!seen">美女走了...</a>
+      <div :title="sup">悬停titile</div>
+      <div>数值渲染: {{name}}</div>
+      <div>
+        <button v-on:click="seenAble">看美女</button>
+        &nbsp
+        <a v-if="seen">美女来了!!!</a>
+        <a v-if="!seen">美女走了...</a>
+      </div>
+      <div class="bk2" v-on:click="djx">{{ddd}}</div>
+    </div>
+    <div>
+      <p>{{name2}}</p>
+      <input v-model="name2"/>
     </div>
     <div>
       <ol class="bk-inner">
         <li v-for="tt in todo">{{tt.text}}</li>
       </ol>
     </div>
-    <div class="bk2" v-on:click="djx">{{ddd}}</div>
-    <div>
-      <p>{{name2}}</p>
-      <input v-model="name2"/>
-    </div>
     <div>
       <todolist v-for="(a,i) in todo " v-bind:key="i" v-bind:todo-name="a"></todolist>
     </div>
     <div>
-      <el-table>
-        <el-row>
-          <el-table-column label="1"/>
-          <el-table-column label="2"/>
-        </el-row>
-        <el-row>
-          <el-table-column label="1"/>
-          <el-table-column label="2"/>
-        </el-row>
-      </el-table>
     </div>
+    <el-table>
+      <el-row>
+        <el-table-column label="1"/>
+        <el-table-column label="2"/>
+      </el-row>
+      <el-row>
+        <el-table-column label="1"/>
+        <el-table-column label="2"/>
+      </el-row>
+    </el-table>
     <div>
-      <el-input v-model.trim="requesturl" placeholder="请求url"/>
+      <el-input v-model.trim="requesturl" placeholder="请求url">
+        <template slot="prepend">url:</template>
+      </el-input>
+      <el-select v-model="value" placeholder="选择">
+        <el-option v-for="i in httpType"
+                   :key="i.value"
+                   :label="i.lable"
+                   :value="i.value">
+        </el-option>
+      </el-select>
+
       <br>
       <el-radio-group v-model="requestMethod" size="small">
         <el-radio-button label="get"></el-radio-button>
@@ -46,18 +57,14 @@
       <br>
       <a>{{resultD}}</a><br>
       <br>
-      <el-button v-on:click="requestUrl3">测试请求2</el-button>
     </div>
   </div>
 </template>
 <script>
   import todolist from "../components/TodoList";
-  import axios from 'axios';
   import qs from 'qs';
   import {Message} from 'element-ui';
-  import signMd5Utils from "../assets/js/signMd5Utils";
   import axiosutils from "../assets/js/AxiosUtil.js";
-
 
   export default {
     name: "study",
@@ -71,7 +78,14 @@
         , name2: "双向绑定"
         , requesturl: ''
         , resultD: ''
-        , requestMethod: 'get'
+        , requestMethod: 'get',
+        httpType: [{
+          lable: "http://"
+          , value: "as"
+        }, {
+          lable: "https://",
+          value: "dds"
+        }]
 
       };
     },
@@ -96,76 +110,22 @@
           // this.requesturl = "https://localhost:8088/head"
         }
         if (this.requestMethod === "get") {
-          this.getTest(this.requesturl, null);
+
         } else {
-
-          let params = {
-            name: 'admin',
-            age: '25'
-          };
-          let config = {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              // 'Content-Type': 'application/json'
-              // 'Authorization':'a'    //非'简单请求'时会自动发送一个探测请求
-            }
-          };
-
-          axios.post(this.requesturl, qs.stringify(params), config).then(res => {
+          axiosutils.post(this.requesturl, null, null).then(res => {
             console.log("成功");
-            console.log(res.data);
-            // Message.success("成功");
-            this.resultD = res.data;
+            console.log(res);
+            this.resultD = res;
+            Message.success(res);
           }).catch(res => {
-            console.log("失败");
-            console.log(res.data);
-            this.resultD = res.data;
-            // Message.error("失败")
-          });
+            console.log("失敗");
+            console.log(res);
+            this.resultD = res;
+            Message.error(res);
+          })
         }
-      },
-      requestUrl3() {
-        console.log("ceshia");
-        let name = "doo";
-        let address = "bj";
-        let url = "http://localhost:8080/sign";
-        let pp = {
-          name: name,
-          address: address,
-        };
-        let sign = signMd5Utils.getSign(url, pp);
-        pp = {
-          name: name,
-          address: address,
-          sign: sign
-        };
-        axiosutils.get(url, pp,
-          success => {
-            console.log("成功");
-            console.log(success);
-            this.resultD = success;
-            Message.success(success);
-          },
-          error => {
-            Message.error(error);
-          }
-        )
-      },
-      getTest(url, params) {
-        axios.get(url).then(res => {
-          console.log("成功");
-          console.log(res.data);
-          this.resultD = res.data;
-          Message.success("成功");
-        }).catch(res => {
-          console.log("失败");
-          console.log(res.data);
-          this.resultD = res.data;
-          Message.error("失败")
-        })
       }
-    }
-    ,
+    },
     components: {
       todolist: todolist
     }
@@ -176,17 +136,34 @@
 
 <style lang="stylus" scoped>
   #study
-    text-align left;
+    /*.bk-inner*/
+    /*text-align left;*/
 
-  .bk-inner
     div
       border-style solid
       border-width 1px
       margin-bottom 5px
       margin-top 2px
       padding 3px
+      /*display inline*/
 
-  .bk2
-    background-color darkgray
+      div
+        /*display inline*/
+        margin: 2px
+        margin-right 5px
+        border-width 1px
 
+    /*float start*/
+
+    /*span*/
+    /*  border-style solid*/
+    /*  border-width 1px*/
+    /*  margin-left 2px*/
+    /*  margin-right: 2px*/
+
+    .bk2
+      background-color darkgray
+
+    .area-single
+      display inline
 </style>

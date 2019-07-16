@@ -2,9 +2,11 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import axiosutil from './assets/js/AxiosInterceptor';
+import axiosinterceptor from './assets/js/AxiosInterceptor';
 import elementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import signMd5Utils from "./assets/js/signMd5Utils";
+
 
 Vue.config.productionTip = false;
 Vue.use(elementUI);
