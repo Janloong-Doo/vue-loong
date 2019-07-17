@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="login">
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="用戶名" prop="username">
         <el-input type="text" v-model="ruleForm.username"></el-input>

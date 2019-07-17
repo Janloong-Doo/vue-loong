@@ -1,7 +1,7 @@
 <template>
-  <div id="spring">
+  <div>
 
-    <Login login-url="{{loginUrl}}"></Login>
+    <Login loginUrl={{loginUrl}}></Login>
 
   </div>
 </template>
@@ -15,7 +15,7 @@
     },
     data() {
       return {
-        loginUrl: ""
+        loginUrl: 'http://localhost:9001'
 
       }
     },
