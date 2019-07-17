@@ -1,9 +1,7 @@
 <template>
-  <div>
-
-    <Login loginUrl={{loginUrl}}></Login>
-
-  </div>
+	<div id="spring">
+		<Login :loginUrl="requestUrl"></Login>
+	</div>
 </template>
 <script>
   import Login from "../components/Login"
@@ -15,7 +13,7 @@
     },
     data() {
       return {
-        loginUrl: 'http://localhost:9001'
+        requestUrl: 'http://localhost:9001/dooLogin'
 
       }
     },

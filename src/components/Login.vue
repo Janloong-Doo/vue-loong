@@ -1,12 +1,28 @@
 <template>
   <div id="login">
-    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-form
+      :model="ruleForm"
+      status-icon
+      :rules="rules"
+      ref="ruleForm"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
       <el-form-item label="用戶名" prop="username">
-        <el-input type="text" v-model="ruleForm.username"></el-input>
+        <el-input
+	        type="text"
+          v-model="ruleForm.username"
+          auto-complete="off"></el-input>
       </el-form-item>
+
       <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="ruleForm.password" auto-complete="off"></el-input>
+        <el-input
+          type="password"
+          v-model="ruleForm.password"
+          auto-complete="off"
+        ></el-input>
       </el-form-item>
+
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -16,89 +32,86 @@
 </template>
 
 <script>
-  import AxiosUtil from "../assets/js/AxiosUtil";
-  import {Message} from 'element-ui';
+import AxiosUtil from "../assets/js/AxiosUtil";
+import { Message } from "element-ui";
 
-  export default {
-    name: "Login",
-    props: {
-      loginUrl: String
-    },
-    data() {
-      var validateUserName = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入用戶名'));
-        } else {
-          if (this.ruleForm.username !== '') {
-            console.log("1");
-            // let validateField = this.$refs.ruleForm.validateField('username');
-            // console.log(validateField)
-            console.log("2");
-          }
-          callback();
+export default {
+  name: "Login",
+  props: {
+    loginUrl: String
+  },
+  data() {
+    var validateUserName = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error("请输入用戶名"));
+      } else {
+        if (this.ruleForm.username !== '') {
+          console.log("1");
+          let validateField = this.$refs.ruleForm.validateField('username');
+          console.log(validateField)
+          console.log("2");
         }
-      };
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          if (this.ruleForm.password !== '') {
-            // this.$refs.ruleForm.validateField('password');
-          }
-          callback();
+        callback();
+      }
+    };
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error("请输入密码"));
+      } else {
+        if (this.ruleForm.password !== '') {
+          // this.$refs.ruleForm.validateField('password');
         }
-      };
-      return {
-        ruleForm: {
-          username: '',
-          password: ''
-        },
-        rules: {
-          username: [
-            {validator: validateUserName, trigger: 'blur'}
-          ],
-          password: [
-            {validator: validatePass, trigger: 'blur'}
-          ]
-        }
-      };
-    },
-    methods: {
-      submitForm(formName) {
-        AxiosUtil.post(this.loginUrl, {
-          username: formName.username,
-          password: formName.username
-        }).then(res => {
+        callback();
+      }
+    };
+    return {
+      ruleForm: {
+        username: '',
+        password: ''
+      },
+      rules: {
+        username: [{ validator: validateUserName, trigger: "blur" }],
+        password: [{ validator: validatePass, trigger: "blur" }]
+      }
+    };
+  },
+  methods: {
+    submitForm(formName) {
+      console.log(formName.username);
+      console.log(formName.password);
+      AxiosUtil.post(this.loginUrl, {
+        username: formName.username,
+        password: formName.username
+      }).then(res => {
           Message.success("成功");
-          Message.success(res);
+          Message.success(res.data);
         }).catch(res => {
           Message.error("失敗");
-          Message.error(res);
-        })
+          Message.error(res.data);
+        });
 
-        // this.$refs[formName].validate((valid) => {
-        //   console.log(formName);
-        //   let message = this.$refs[formName].model.username;
-        //   console.log(message);
-        //
-        //   if (valid) {
-        //     console.log("submit");
-        //     alert('submit!');
-        //   } else {
-        //     console.log('error submit!!');
-        //     return false;
-        //   }
-        // });
-      }
-      ,
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
+      // this.$refs[formName].validate((valid) => {
+      //   console.log(formName);
+      //   let message = this.$refs[formName].model.username;
+      //   console.log(message);
+      //
+      //   if (valid) {
+      //     console.log("submit");
+      //     alert('submit!');
+      //   } else {
+      //     console.log('error submit!!');
+      //     return false;
+      //   }
+      // });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     }
   }
-
+};
 </script>
 
-<style scoped>
-
+<style lang="stylus" scoped>
+#login
+	width 30%
 </style>

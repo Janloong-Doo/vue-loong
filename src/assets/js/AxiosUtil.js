@@ -36,9 +36,9 @@ export default class AxiosUtil {
     return new Promise((resolve, reject) => {
       axios.post(url, qs.stringify(param), config)
         .then(res => {
-          resolve(res)
+          resolve(success)
         }).catch(res => {
-        reject(res)
+        reject(error)
       })
     });
     // axios.post(url, qs.stringify(param), config)
