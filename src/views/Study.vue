@@ -1,70 +1,70 @@
 <template>
-  <div id="study" class="bk-inner">
-    <div>
-      <div :title="sup">悬停titile</div>
-      <div>数值渲染: {{name}}</div>
-      <div>
-        <button v-on:click="seenAble">看美女</button>
-        &nbsp
-        <a v-if="seen">美女来了!!!</a>
-        <a v-if="!seen">美女走了...</a>
-      </div>
-      <div class="bk2" v-on:click="djx">{{ddd}}</div>
-    </div>
-    <div>
-      <p>{{name2}}</p>
-      <input v-model="name2"/>
-    </div>
-    <div>
-      <ol class="bk-inner">
-        <li v-for="tt in todo">{{tt.text}}</li>
-      </ol>
-    </div>
-    <div>
-      <todolist v-for="(a,i) in todo " v-bind:key="i" v-bind:todo-name="a"></todolist>
-    </div>
-    <div>
-    </div>
-    <el-table>
-      <el-row>
-        <el-table-column label="1"/>
-        <el-table-column label="2"/>
-      </el-row>
-      <el-row>
-        <el-table-column label="1"/>
-        <el-table-column label="2"/>
-      </el-row>
-    </el-table>
-    <div>
-      <el-input v-model.trim="requesturl" placeholder="请求url">
-        <template slot="prepend">url:</template>
-      </el-input>
-      <el-select v-model="value" placeholder="选择">
-        <el-option v-for="i in httpType"
-                   :key="i.value"
-                   :label="i.lable"
-                   :value="i.value">
-        </el-option>
-      </el-select>
+	<div id="study" class="bk-inner">
+		<div>
+			<div :title="sup">悬停titile</div>
+			<div>数值渲染: {{name}}</div>
+			<div>
+				<button v-on:click="seenAble">看美女</button>
+				&nbsp
+				<a v-if="seen">美女来了!!!</a>
+				<a v-if="!seen">美女走了...</a>
+			</div>
+			<div class="bk2" v-on:click="djx">{{ddd}}</div>
+		</div>
+		<div>
+			<p>{{name2}}</p>
+			<input v-model="name2"/>
+		</div>
+		<div>
+			<ol class="bk-inner">
+				<li v-for="tt in todo">{{tt.text}}</li>
+			</ol>
+		</div>
+		<div>
+			<todolist v-for="(a,i) in todo " v-bind:key="i" v-bind:todo-name="a"></todolist>
+		</div>
+		<div>
+		</div>
+		<el-table>
+			<el-row>
+				<el-table-column label="1"/>
+				<el-table-column label="2"/>
+			</el-row>
+			<el-row>
+				<el-table-column label="1"/>
+				<el-table-column label="2"/>
+			</el-row>
+		</el-table>
+		<div>
+			<el-input v-model.trim="requesturl" placeholder="请求url">
+				<template slot="prepend">url:</template>
+			</el-input>
+			<el-select v-model="value" placeholder="选择">
+				<el-option v-for="i in httpType"
+				           :key="i.value"
+				           :label="i.lable"
+				           :value="i.value">
+				</el-option>
+			</el-select>
 
-      <br>
-      <el-radio-group v-model="requestMethod" size="small">
-        <el-radio-button label="get"></el-radio-button>
-        <el-radio-button label="post"></el-radio-button>
-      </el-radio-group>
-      <el-button v-on:click="requestUrl">提交
-      </el-button>
-      <br>
-      <a>{{resultD}}</a><br>
-      <br>
-    </div>
-  </div>
+			<br>
+			<el-radio-group v-model="requestMethod" size="small">
+				<el-radio-button label="get"></el-radio-button>
+				<el-radio-button label="post"></el-radio-button>
+			</el-radio-group>
+			<el-button v-on:click="requestUrl">提交
+			</el-button>
+			<br>
+			<a>{{resultD}}</a><br>
+			<br>
+		</div>
+	</div>
 </template>
 <script>
   import todolist from "../components/TodoList";
-  import qs from 'qs';
   import {Message} from 'element-ui';
   import axiosutils from "../assets/js/AxiosUtil.js";
+  import signutil from '../assets/js/signMd5Utils';
 
   export default {
     name: "study",
@@ -110,9 +110,27 @@
           // this.requesturl = "https://localhost:8088/head"
         }
         if (this.requestMethod === "get") {
-
+          console.log('get请求开始');
+          let urlParams = signutil.parseQueryString(this.requesturl);
+          urlParams.name = 'doo';
+          let timestamp = new Date().valueOf();
+          urlParams.timestamp = timestamp+'';
+          urlParams.nonce = signutil.getNonce(timestamp);
+          urlParams.sign = signutil.getSign(this.requesturl, urlParams);
+          console.log(urlParams);
+          axiosutils.get(this.requesturl, urlParams).then(res => {
+            console.log("成功");
+            console.log(res);
+            this.resultD = res;
+            Message.success(res);
+          }).catch(res => {
+            console.log("失敗");
+            console.log(res);
+            this.resultD = res;
+            Message.error(res);
+          })
         } else {
-          axiosutils.post(this.requesturl, null, null).then(res => {
+          axiosutils.post(this.requesturl, null).then(res => {
             console.log("成功");
             console.log(res);
             this.resultD = res;
@@ -135,35 +153,35 @@
 </script>
 
 <style lang="stylus" scoped>
-  #study
-    /*.bk-inner*/
-    /*text-align left;*/
+	#study
+		/*.bk-inner*/
+		/*text-align left;*/
 
-    div
-      border-style solid
-      border-width 1px
-      margin-bottom 5px
-      margin-top 2px
-      padding 3px
-      /*display inline*/
+		div
+			border-style solid
+			border-width 1px
+			margin-bottom 5px
+			margin-top 2px
+			padding 3px
+			/*display inline*/
 
-      div
-        /*display inline*/
-        margin: 2px
-        margin-right 5px
-        border-width 1px
+			div
+				/*display inline*/
+				margin: 2px
+				margin-right 5px
+				border-width 1px
 
-    /*float start*/
+		/*float start*/
 
-    /*span*/
-    /*  border-style solid*/
-    /*  border-width 1px*/
-    /*  margin-left 2px*/
-    /*  margin-right: 2px*/
+		/*span*/
+		/*  border-style solid*/
+		/*  border-width 1px*/
+		/*  margin-left 2px*/
+		/*  margin-right: 2px*/
 
-    .bk2
-      background-color darkgray
+		.bk2
+			background-color darkgray
 
-    .area-single
-      display inline
+		.area-single
+			display inline
 </style>

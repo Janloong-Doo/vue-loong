@@ -47,8 +47,8 @@ export default {
       } else {
         if (this.ruleForm.username !== '') {
           console.log("1");
-          let validateField = this.$refs.ruleForm.validateField('username');
-          console.log(validateField)
+          // let validateField = this.$refs.ruleForm.validateField('username');
+          console.log(validateField);
           console.log("2");
         }
         callback();
@@ -59,7 +59,7 @@ export default {
         callback(new Error("请输入密码"));
       } else {
         if (this.ruleForm.password !== '') {
-          // this.$refs.ruleForm.validateField('password');
+          this.$refs.ruleForm.validateField('password');
         }
         callback();
       }

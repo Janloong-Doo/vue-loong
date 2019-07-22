@@ -3,29 +3,21 @@ import qs from 'qs';
 
 export default class AxiosUtil {
 
-  static get(url, param, success, error) {
+  static get(url, param) {
 
     param = param == null ? {} : {params: param};
     console.log(param);
-    axios.get(url, param).then(
-      function (response) {
-        if (success) {
-          success(response.data);
+    return new Promise((resolve, reject) => {
+      axios.get(url, param).then(res => {
+        resolve(res);
         }
-      }
-    ).catch(function (response) {
-        if (response.response.status == '401') {
-          sessionStorage.clear()
-          error(response.data);
-        }
-        if (error) {
-          error(response.data);
-        }
-      }
-    )
+      ).catch(res => {
+        reject(res);
+      });
+    });
   }
 
-  static post(url, param, success, error) {
+  static post(url, param) {
     param = param == null ? {} : param;
     let config = {
       headers: {
@@ -36,9 +28,9 @@ export default class AxiosUtil {
     return new Promise((resolve, reject) => {
       axios.post(url, qs.stringify(param), config)
         .then(res => {
-          resolve(success)
+          resolve(res)
         }).catch(res => {
-        reject(error)
+        reject(res)
       })
     });
     // axios.post(url, qs.stringify(param), config)

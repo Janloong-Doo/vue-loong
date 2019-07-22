@@ -35,6 +35,8 @@ export default class signMd5Utils {
     // let message = md5(JSON.stringify(requestBody)).toUpperCase();
     // let s = message+"janloong";
     // return md5(s).toUpperCase();
+    console.log("signparam");
+    console.log(requestBody);
     let message = sha256(JSON.stringify(requestBody)).toUpperCase();
     console.log(message);
     return message;
@@ -87,4 +89,14 @@ export default class signMd5Utils {
     }
     return paramStr;
   };
+
+  static getNonce(timestamp) {
+    let num = Math.random() * (2 << 16);
+    let preNonce = timestamp + ':' + num;
+    let md = md5(preNonce);
+    console.log(num);
+    console.log(preNonce);
+    console.log(md);
+    return md;
+  }
 }
