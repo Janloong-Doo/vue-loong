@@ -106,8 +106,10 @@
       requestUrl() {
         if (this.requesturl === '' || this.requesturl == null) {
           // this.requesturl = "http://168.130.1.33:11001/authcenter/sysUser/login"
-          this.requesturl = "https://127.0.0.1:8082/warn/readList?type=today";
+          // this.requesturl = "https://127.0.0.1:8082/warn/readList?type=today";
           // this.requesturl = "https://localhost:8088/head"
+          // this.requesturl = "http://127.0.0.1:8082/getcache";
+          this.requesturl = "http://192.168.137.69:8082/getcache";
         }
         if (this.requestMethod === "get") {
           console.log('get请求开始');
