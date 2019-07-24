@@ -1,6 +1,7 @@
 {
   "name": "loong",
   "version": "1.0.0",
+  "description": "asd",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --port 8889",
