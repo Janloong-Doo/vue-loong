@@ -45,6 +45,9 @@
         if (value === '') {
           callback(new Error("请输入用戶名"));
         } else {
+          if (value.length < 2) {
+            callback(new Error("用户名长度过短"))
+          }
           callback();
         }
       };
@@ -70,20 +73,21 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            let username = this.$refs[formName].model.username;
+            let password = this.$refs[formName].model.password;
             AxiosUtil.post(this.loginUrl, {
-              username: formName.username,
-              password: formName.username
+              username: username,
+              password: password
             }).then(res => {
+              console.log(res)
               Message.success("成功");
               Message.success(res.data);
             }).catch(res => {
+              console.log(res)
               Message.error("失敗");
               Message.error(res.data);
             });
-            console.log("submit");
-            alert('submit!');
           } else {
-            console.log('error submit!!');
             return false;
           }
         });

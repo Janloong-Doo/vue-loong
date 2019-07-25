@@ -13,7 +13,8 @@
     },
     data() {
       return {
-        requestUrl: 'http://localhost:9001/dooLogin'
+        // requestUrl: 'http://localhost:9001/dooLogin'
+        requestUrl: 'http://192.168.236.1:9001/login'
 
       }
     },

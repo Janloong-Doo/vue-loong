@@ -2,11 +2,15 @@ import axios from 'axios'
 import {Message} from 'element-ui'
 
 axios.interceptors.request.use(config => {
+  // if (config.method === 'POST' || config.method === 'post') {
+  //   config.withCredentials = true;
+  // }
   return config;
 }, err => {
   Message.error({message: '请求超时!'});
 });
 axios.interceptors.response.use(data => {
+  console.log(data);
   if (data.status && data.status === 200 && data.data.status === 500) {
     Message.error({message: data.data.msg});
     return;
