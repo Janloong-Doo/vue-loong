@@ -79,13 +79,12 @@
               username: username,
               password: password
             }).then(res => {
-              console.log(res)
-              Message.success("成功");
               Message.success(res.data);
+              console.log(res.data);
             }).catch(res => {
-              console.log(res)
-              Message.error("失敗");
-              Message.error(res.data);
+              console.log('22');
+              console.log(res.data);
+              Message.error("失敗2");
             });
           } else {
             return false;

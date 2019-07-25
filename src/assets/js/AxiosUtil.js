@@ -29,11 +29,12 @@ export default class AxiosUtil {
       axios.defaults.withCredentials = true;
       axios.post(url, qs.stringify(param), config)
         .then(res => {
+          console.log("00");
           resolve(res)
         }).catch(res => {
+          console.log("01");
         reject(res)
       })
     });
-    // axios.
   }
 }
