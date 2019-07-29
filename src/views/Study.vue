@@ -39,7 +39,7 @@
 			<el-input v-model.trim="requesturl" placeholder="请求url">
 				<template slot="prepend">url:</template>
 			</el-input>
-			<el-select v-model="value" placeholder="选择">
+			<el-select v-model="httpType" placeholder="选择">
 				<el-option v-for="i in httpType"
 				           :key="i.value"
 				           :label="i.lable"
@@ -57,6 +57,7 @@
 			<br>
 			<a>{{resultD}}</a><br>
 			<br>
+			<el-button @:click="randomTest">随机测试</el-button>
 		</div>
 	</div>
 </template>
@@ -91,6 +92,7 @@
     },
     props: {
       // name: "我是被渲染的"
+      userId: Object
     },
     methods: {
       djx() {
@@ -116,7 +118,7 @@
           let urlParams = signutil.parseQueryString(this.requesturl);
           urlParams.name = 'doo';
           let timestamp = new Date().valueOf();
-          urlParams.timestamp = timestamp+'';
+          urlParams.timestamp = timestamp + '';
           urlParams.nonce = signutil.getNonce(timestamp);
           urlParams.sign = signutil.getSign(this.requesturl, urlParams);
           console.log(urlParams);
@@ -144,7 +146,12 @@
             Message.error(res);
           })
         }
+      },
+      randomTest() {
+        let router = this.$router;
+        console.log(router)
       }
+
     },
     components: {
       todolist: todolist

@@ -28,6 +28,7 @@
 				<el-button @click="resetForm('ruleForm')">重置</el-button>
 			</el-form-item>
 		</el-form>
+		<el-button v-on:click="randomTest">测试</el-button>
 	</div>
 </template>
 
@@ -93,6 +94,11 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      randomTest() {
+        let router = this.$route;
+        console.log(router)
+        this.$router.push({path: "home"})
       }
     }
   };
