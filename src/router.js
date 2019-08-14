@@ -16,7 +16,7 @@ export default new Router({
       component: Home
     },
     {
-      path: "/study/:userId",
+      path: "/study",
       name: "study",
       props: true,
       // route level code-splitting

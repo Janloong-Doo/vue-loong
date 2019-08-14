@@ -3,9 +3,10 @@
 		<div id="nav">
       <span>
       <span v-bind:title="tips">
-            <router-link :to="{path: '/study',params:{userId:123}}">Study</router-link>
+            <router-link :to="{path: '/study'}">Study</router-link>
             </span>
       </span>|
+<!--            <router-link :to="{path: '/study',params:{userId:123}}">Study</router-link>-->
 			<router-link to="/">Home</router-link>
 			|
 			<router-link to="/spring">Spring</router-link>
