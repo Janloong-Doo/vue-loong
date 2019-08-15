@@ -10,16 +10,13 @@ axios.interceptors.request.use(config => {
   Message.error({message: '请求超时!'});
 });
 axios.interceptors.response.use(data => {
-  console.log('1');
-  console.log(data);
-  console.log('2');
-  if (data.status && data.status === 200 && data.data.status === 500) {
-    console.log('3');
+
+  let newVar = data.status && data.status === 200 && data.data.success === true;
+  if (!newVar) {
     Message.error({message: data.data.msg});
     return;
   }
   if (data.data.msg) {
-    console.log('4');
     Message.success({message: data.data.msg});
   }
   return data.data;

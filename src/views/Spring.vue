@@ -1,6 +1,9 @@
 <template>
 	<div id="spring">
 		<Login :loginUrl="requestUrl"></Login>
+		<div v-if="signAble">
+			登录成功
+		</div>
 	</div>
 </template>
 <script>
@@ -13,9 +16,8 @@
     },
     data() {
       return {
-        // requestUrl: 'http://localhost:9001/dooLogin'
-        requestUrl: 'http://192.168.211.1:9001/login'
-
+        requestUrl: 'http://192.168.211.1:9001/login',
+        signAble: false
       }
     },
     methods: {}

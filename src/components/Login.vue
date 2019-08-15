@@ -80,12 +80,9 @@
               username: username,
               password: password
             }).then(res => {
-              Message.success(res.data);
-              console.log(res.data);
+              this.$parent.signAble = true;
             }).catch(res => {
-              console.log('22');
-              console.log(res.data);
-              Message.error("失敗2");
+              console.log('异常错误');
             });
           } else {
             return false;
