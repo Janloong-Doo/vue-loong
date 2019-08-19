@@ -2,11 +2,12 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Spring from "./views/Spring.vue";
+import Index from "./views/spring/Index.vue";
 
 Vue.use(Router);
 
 export default new Router({
-  // mode: "history",
+  mode: "history",
   // mode: "",
   // base: process.env.BASE_URL,
   routes: [
@@ -28,7 +29,22 @@ export default new Router({
     {
       path: "/spring",
       name: "spring",
-      component: Spring
+      component: Spring,
+      children: [{
+        path: "login",
+        component: () =>
+          import(/* webpackChunkName: "about" */ "./views/spring/Login.vue")
+      }, {
+        name: 'loginIndex',
+        path: "index",
+        props: true,
+        component: Index
+
+        // component: () => {
+        //   import("./views/Index.vue")
+        // }
+      }
+      ]
     }
   ]
 })

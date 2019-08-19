@@ -26,7 +26,7 @@ export default class AxiosUtil {
     };
 
     return new Promise((resolve, reject) => {
-      axios.defaults.withCredentials = true;
+      // axios.defaults.withCredentials = true;
       axios.post(url, qs.stringify(param), config)
         .then(res => {
           resolve(res)

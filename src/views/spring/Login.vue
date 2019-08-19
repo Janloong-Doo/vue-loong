@@ -33,14 +33,11 @@
 </template>
 
 <script>
-  import AxiosUtil from "../assets/js/AxiosUtil";
+  import AxiosUtil from "../../assets/js/AxiosUtil";
   import {Message} from "element-ui";
 
   export default {
     name: "Login",
-    props: {
-      loginUrl: String
-    },
     data() {
       var validateUserName = (rule, value, callback) => {
         if (value === '') {
@@ -61,8 +58,9 @@
       };
       return {
         ruleForm: {
-          username: '',
-          password: ''
+          username: 'doo',
+          password: 'doo',
+          requestUrl: 'http://192.168.211.1:9001/login',
         },
         rules: {
           username: [{validator: validateUserName, trigger: "blur"}],
@@ -76,11 +74,14 @@
           if (valid) {
             let username = this.$refs[formName].model.username;
             let password = this.$refs[formName].model.password;
-            AxiosUtil.post(this.loginUrl, {
+            // AxiosUtil.post(this.loginUrl, {
+            AxiosUtil.post(this.$refs[formName].model.requestUrl, {
               username: username,
               password: password
             }).then(res => {
-              this.$parent.signAble = true;
+              console.log('跳转页面');
+              // this.$router.push({path: "/spring/index"})
+              this.$router.push({name:'loginIndex',path: "/spring/index", params: {status: "success"}})
             }).catch(res => {
               console.log('异常错误');
             });
@@ -94,8 +95,10 @@
       },
       randomTest() {
         let router = this.$route;
-        console.log(router)
-        this.$router.push({path: "home"})
+        console.log(router);
+        // let self = this;
+        // this.$router.push({path: "/study"})
+        this.$router.push({path: "/spring/index", params: {status: "success"}})
       }
     }
   };

@@ -1,14 +1,24 @@
 import axios from 'axios'
+
 import {Message} from 'element-ui'
 
 axios.interceptors.request.use(config => {
-  // if (config.method === 'POST' || config.method === 'post') {
-  //   config.withCredentials = true;
-  // }
+  if (config.method === 'POST' || config.method === 'post') {
+    axios.defaults.withCredentials = true;
+    axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+  }
+    // 每次发送请求之前判断vuex中是否存在token
+    // 如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
+    // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
+    // const token = store.state.token;
+    // token && (config.headers.Authorization = token);
+
   return config;
 }, err => {
   Message.error({message: '请求超时!'});
+  // return Promise.error(error);
 });
+
 axios.interceptors.response.use(data => {
 
   let newVar = data.status && data.status === 200 && data.data.success === true;
