@@ -98,7 +98,7 @@
         console.log(router);
         // let self = this;
         // this.$router.push({path: "/study"})
-        this.$router.push({path: "/spring/index", params: {status: "success"}})
+        this.$router.push({path: "/spring/index", params: {signStatus: "success"}})
       }
     }
   };
