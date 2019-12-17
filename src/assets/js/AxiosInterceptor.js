@@ -23,11 +23,12 @@ axios.interceptors.response.use(data => {
 
   let newVar = data.status && data.status === 200 && data.data.success === true;
   if (!newVar) {
-    // Message.success({message: data.data.msg});
+    // Message.error({message: "请求失败"});
     return data.data;
   }
   if (data.data.msg) {
-    Message.success({message: data.data.msg});
+    // Message.success({message: data.data.msg});
+    console.log({message: data.data.msg});
   }
   return data.data;
 }, err => {

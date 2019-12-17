@@ -1,9 +1,16 @@
 <template>
 	<div id="study" class="bk-inner">
-		<div>
+		<div >
+
 			<div :title="sup">悬停titile</div>
 			<div>数值渲染: {{name}}</div>
+			<div :title='sup' v-pre>显示原始信息跳过编译过程: {{name}}</div>
+
+			<div :title="sup" v-cloak>插值表达式闪动（即显示双大括号）: {{name}}</div>
+			<div  :title="sup" v-text="'使用v-text 没有闪动问题: '+name"></div>
+
 			<div>
+
 				<button v-on:click="seenAble">看美女</button>
 				&nbsp
 				<a v-if="seen">美女来了!!!</a>
@@ -72,7 +79,7 @@
     data() {
       return {
         name: "我是被渲染的"
-        , sup: "惊喜"
+        , sup: "指令"
         , seen: true
         , todo: [{text: "没钱"}, {text: "没车"}, {text: "没对象"}]
         , ddd: "点击有惊喜"
@@ -199,4 +206,8 @@
 
 		.area-single
 			display inline
+
+	[v-clock] {
+		display none
+	}
 </style>

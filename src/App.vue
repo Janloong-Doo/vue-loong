@@ -6,9 +6,10 @@
             <router-link :to="{path: '/study'}">Study</router-link>
             </span>
       </span>|
-<!--            <router-link :to="{path: '/study',params:{userId:123}}">Study</router-link>-->
+			<!--            <router-link :to="{path: '/study',params:{userId:123}}">Study</router-link>-->
 			<router-link to="/">Home</router-link>
 			|
+<!--			<router-link to="/spring/login">Spring</router-link>-->
 			<router-link to="/spring">Spring</router-link>
 		</div>
 		<router-view class="c-border"/>
@@ -19,9 +20,9 @@
 
   export default {
     name: "app",
-	  props:{
+    props: {
       userId: Object
-	  },
+    },
     data() {
       return {
         tips: 'tips: 学习测试页面 2, ' + new Date().toLocaleString()

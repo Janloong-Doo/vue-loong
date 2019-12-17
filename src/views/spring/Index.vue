@@ -37,11 +37,16 @@
     methods: {
       getUserInfo() {
         let url = 'http://192.168.211.1:9001/user/auth';
-        AxiosUtil.get(url, null).then(res => {
-          console.log("获取用户信息成功")
-          // console.log(res.data);
-          console.log(res);
-        }).catch(res => {
+        AxiosUtil.get(url, null)
+          .then(res => {
+            if (res.success) {
+              console.log("获取用户信息成功");
+              console.log(res);
+
+            } else {
+              Message.error({message: "请求失败"});
+            }
+          }).catch(res => {
           console.log("获取用户信息失败")
           console.log(res);
         });
@@ -49,8 +54,17 @@
       logout() {
         AxiosUtil.post(this.requestUrl, null)
           .then(res => {
-            console.log("退出成功");
-            Message.info("退出成功")
+            if (res.success) {
+              Message.info("退出成功");
+              console.log(this.$router);
+              this.$router.push({
+                name: "loginPage",
+                path: "/spring/login",
+                params: {status: "success"}
+              });
+            } else {
+              Message.info("退出失败");
+            }
           }).catch(res => {
           console.log("退出失败")
         })

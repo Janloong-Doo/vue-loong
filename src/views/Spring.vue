@@ -1,8 +1,11 @@
 <template>
 	<div id="spring">
 		<div id="nav">
-		<router-link to="/spring/login">Login</router-link>|
-		<router-link to="/spring/index">Index</router-link>
+			<router-link to="/spring/login">Login</router-link>
+			|
+			<router-link to="/spring/index">Index</router-link>
+			|
+			<router-link to="/spring/doo/user">User</router-link>
 		</div>
 		<router-view/>
 	</div>
@@ -11,15 +14,11 @@
 
   export default {
     name: "Spring",
-    components: {
-    },
+    components: {},
     data() {
-      return {
-      }
+      return {}
     },
-    methods: {
-
-    }
+    methods: {}
 
 
   }

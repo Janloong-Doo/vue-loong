@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Spring from "./views/Spring.vue";
 import Index from "./views/spring/Index.vue";
+import Login from "./views/spring/Login.vue";
 
 Vue.use(Router);
 
@@ -27,23 +28,37 @@ export default new Router({
         import(/* webpackChunkName: "about" */ "./views/Study.vue")
     },
     {
-      path: "/spring",
       name: "spring",
+      path: "/spring",
       component: Spring,
-      children: [{
-        path: "login",
-        component: () =>
-          import(/* webpackChunkName: "about" */ "./views/spring/Login.vue")
-      }, {
-        name: 'loginIndex',
-        path: "index",
-        props: true,
-        component: Index
+      children: [
+        {
+          name: 'loginPage',
+          path: "/spring/login",
+          component: () =>
+            import(/* webpackChunkName: "about" */ "./views/spring/Login.vue")
+        },
+        {
+          name: 'loginIndex',
+          path: "/spring/index",
+          props: true,
+          component: Index
+        //   children:[
+        //     {
+        //
+        //     }
+        //   ]
+        },
+        {
+          name: 'user',
+          path: "/spring/:id/user",
+          // props: true,
+          props: (route) => ({name: 'doo', age: '25', id: route.params.id}),
+          component: () =>
+            import(/* webpackChunkName: "about" */ "./views/spring/User.vue")
+        }
 
-        // component: () => {
-        //   import("./views/Index.vue")
-        // }
-      }
+
       ]
     }
   ]
