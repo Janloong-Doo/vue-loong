@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import {Message} from 'element-ui'
+import mVue from '../../main'
 
 axios.interceptors.request.use(config => {
   if (config.method === 'POST' || config.method === 'post') {
@@ -20,7 +21,7 @@ axios.interceptors.request.use(config => {
 });
 
 axios.interceptors.response.use(data => {
-
+  console.log(data);
   let newVar = data.status && data.status === 200 && data.data.success === true;
   if (!newVar) {
     // Message.error({message: "请求失败"});
@@ -28,17 +29,18 @@ axios.interceptors.response.use(data => {
   }
   if (data.data.msg) {
     // Message.success({message: data.data.msg});
-    console.log({message: data.data.msg});
+    console.log(data.data.msg);
   }
   return data.data;
 }, err => {
-  console.log('5');
   if (err.response.status === 504 || err.response.status === 404) {
     Message.error({message: '服务器被吃了⊙﹏⊙∥'});
   } else if (err.response.status === 403) {
     Message.error({message: '权限不足,请联系管理员!'});
   } else if (err.response.status === 401) {
     Message.error({message: err.response.data.msg});
+    mVue.$router.push("/spring/login")
+    // return;
   } else {
     if (err.response.data.msg) {
       Message.error({message: err.response.data.msg});

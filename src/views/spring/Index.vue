@@ -1,7 +1,6 @@
 <template>
 	<div id="index">
-		<span v-if="signStatus==='index'">测试首页面</span>
-		<span v-if="signStatus==='success'">登陆成功</span>
+		<span v-if="signStatus=='success'">登陆成功</span>
 		<span v-else>测试首页面</span>
 		<el-button v-on:click="getUserInfo">获取用户信息</el-button>
 		<el-button v-on:click="logout">退出登录</el-button>
@@ -17,32 +16,31 @@
     data() {
       return {
         requestUrl: 'http://192.168.211.1:9001/logout',
-        signStatus: 'index'
       }
     },
     props: {
-      // signStatus: {
-      //   type: String,
-      //   default: 'index'
-      // }
+      // 'signStatus'
+      'signStatus': {
+        type: String,
+        default: 'index'
+      }
     },
+    // ],
 
     mounted() {
       console.log("status的值为");
-      let signStatus2 = this.$route.params.signStatus;
-      this.signStatus = signStatus2
-      console.log(this.signStatus + "===" + signStatus2);
+      console.log(this.signStatus);
     },
     computed: {},
     methods: {
       getUserInfo() {
+        console.log(this.signStatus);
+
         let url = 'http://192.168.211.1:9001/user/auth';
         AxiosUtil.get(url, null)
           .then(res => {
             if (res.success) {
-              console.log("获取用户信息成功");
               console.log(res);
-
             } else {
               Message.error({message: "请求失败"});
             }
@@ -58,8 +56,7 @@
               Message.info("退出成功");
               console.log(this.$router);
               this.$router.push({
-                name: "loginPage",
-                path: "/spring/login",
+                name: "login",
                 params: {status: "success"}
               });
             } else {

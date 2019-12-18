@@ -31,8 +31,9 @@
 				<el-button @click="resetForm('ruleForm')">重置</el-button>
 			</el-form-item>
 		</el-form>
-		<el-button v-on:click="randomTest">测试</el-button>
 	</div>
+<!--	<img src="http://192.168.211.1:9001/validate/imageCode"/>-->
+	<img :src="imageSrc">
 </template>
 
 <script>
@@ -60,6 +61,7 @@
         }
       };
       return {
+        imageSrc:'http://192.168.211.1:9001/validate/imageCode',
         ruleForm: {
           username: "doo",
           password: "doo",
@@ -89,9 +91,9 @@
                   // this.$router.push({path: "/spring/index"})
                   console.log("登录成功");
                   this.$router.push({
-                    name: "loginIndex",
-                    path: "/spring/index",
-                    params: {status: "success"}
+                    name: "index",
+                    // path: "/spring/index",
+                    params: {signStatus: "success"}
                   });
                 } else {
                   console.log("登录失败");
@@ -108,17 +110,9 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
-      },
-      randomTest() {
-        let router = this.$route;
-        console.log(router);
-        // let self = this;
-        // this.$router.push({path: "/study"})
-        this.$router.push({
-          path: "/spring/index",
-          params: {signStatus: "success"}
-        });
       }
+
+
     }
   };
 </script>

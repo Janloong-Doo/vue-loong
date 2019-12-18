@@ -33,21 +33,23 @@ export default new Router({
       component: Spring,
       children: [
         {
-          name: 'loginPage',
+          name: 'login',
           path: "/spring/login",
           component: () =>
             import(/* webpackChunkName: "about" */ "./views/spring/Login.vue")
         },
         {
-          name: 'loginIndex',
+          name: 'index',
           path: "/spring/index",
           props: true,
+          // props: {signStatus: 'index'},
+          // props: (route) => ({signStatus:'index'}),
           component: Index
-        //   children:[
-        //     {
-        //
-        //     }
-        //   ]
+          //   children:[
+          //     {
+          //
+          //     }
+          //   ]
         },
         {
           name: 'user',

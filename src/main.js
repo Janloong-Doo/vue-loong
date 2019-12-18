@@ -11,8 +11,10 @@ import signMd5Utils from "./assets/js/signMd5Utils";
 Vue.config.productionTip = false;
 Vue.use(elementUI);
 
-new Vue({
+const mVue =new Vue({
   router,
   store,
   render: h => h(App),
 }).$mount("#app");
+export default mVue;
+
