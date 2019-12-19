@@ -23,6 +23,14 @@
 					auto-complete="off"
 				></el-input>
 			</el-form-item>
+			<el-form-item label="验证码" prop="validateCode">
+				<el-input
+					type="text"
+					v-model="ruleForm.validateCode"
+					auto-complete="off"
+				></el-input>
+				<img :src="imageSrc">
+			</el-form-item>
 
 			<el-form-item>
 				<el-button type="primary" @click="submitForm('ruleForm')"
@@ -31,9 +39,8 @@
 				<el-button @click="resetForm('ruleForm')">重置</el-button>
 			</el-form-item>
 		</el-form>
+
 	</div>
-<!--	<img src="http://192.168.211.1:9001/validate/imageCode"/>-->
-	<img :src="imageSrc">
 </template>
 
 <script>
@@ -60,17 +67,30 @@
           callback();
         }
       };
+      var validateValidateCode = (rule, value, callback) => {
+        if (value === "") {
+          callback(new Error("请输入验证码"));
+        } else {
+          if (value.length < 2) {
+            callback(new Error("用户名长度过短"));
+          }
+          callback();
+        }
+      };
       return {
-        imageSrc:'http://192.168.211.1:9001/validate/imageCode',
+        // imageSrc: 'http://192.168.211.1:9001/validate/imageCode',
+        imageSrc: 'http://localhost:9001/validate/imageCode',
         ruleForm: {
           username: "doo",
           password: "doo",
+          validateCode: "1111",
           // requestUrl: "http://192.168.211.129:9001/login"
-          requestUrl: "http://192.168.211.1:9001/login"
+          requestUrl: "http://localhost:9001/login"
         },
         rules: {
           username: [{validator: validateUserName, trigger: "blur"}],
-          password: [{validator: validatePass, trigger: "blur"}]
+          password: [{validator: validatePass, trigger: "blur"}],
+          validateCode: [{validator: validateValidateCode, trigger: "blur"}]
         }
       };
     },
@@ -80,10 +100,12 @@
           if (valid) {
             let username = this.$refs[formName].model.username;
             let password = this.$refs[formName].model.password;
+            let validateCode = this.$refs[formName].model.validateCode;
             // AxiosUtil.post(this.loginUrl, {
             AxiosUtil.post(this.$refs[formName].model.requestUrl, {
               username: username,
-              password: password
+              password: password,
+              imageCode: validateCode
             })
               .then(res => {
                 console.log(res);

@@ -4,7 +4,9 @@ import {Message} from 'element-ui'
 import mVue from '../../main'
 
 axios.interceptors.request.use(config => {
+    axios.defaults.withCredentials = true;
   if (config.method === 'POST' || config.method === 'post') {
+    console.log('vue开启credentials');
     axios.defaults.withCredentials = true;
     axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
   }

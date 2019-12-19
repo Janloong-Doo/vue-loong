@@ -7,8 +7,11 @@ export default class AxiosUtil {
 
     param = param == null ? {} : {params: param};
     console.log(param);
+    let config = {
+      withCredentials: true
+    };
     return new Promise((resolve, reject) => {
-      axios.get(url, param).then(res => {
+      axios.get(url, config).then(res => {
           resolve(res);
         }
       ).catch(res => {
@@ -22,7 +25,8 @@ export default class AxiosUtil {
     let config = {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
-      }
+      },
+      withCredentials: true
     };
 
     return new Promise((resolve, reject) => {

@@ -36,7 +36,7 @@
       getUserInfo() {
         console.log(this.signStatus);
 
-        let url = 'http://192.168.211.1:9001/user/auth';
+        let url = 'http://localhost:9001/user/auth';
         AxiosUtil.get(url, null)
           .then(res => {
             if (res.success) {
