@@ -3,7 +3,9 @@
 		<span v-if="signStatus=='success'">登陆成功</span>
 		<span v-else>测试首页面</span>
 		<el-button v-on:click="getUserInfo">获取用户信息</el-button>
+		<el-button v-on:click="getUserInfo2">获取所有信息</el-button>
 		<el-button v-on:click="logout">退出登录</el-button>
+		<span v-text="userInfo"></span>
 	</div>
 </template>
 
@@ -16,6 +18,7 @@
     data() {
       return {
         requestUrl: 'http://192.168.211.1:9001/logout',
+        userInfo: ''
       }
     },
     props: {
@@ -41,6 +44,24 @@
           .then(res => {
             if (res.success) {
               console.log(res);
+              this.userInfo=res.data;
+            } else {
+              Message.error({message: "请求失败"});
+            }
+          }).catch(res => {
+          console.log("获取用户信息失败")
+          console.log(res);
+        });
+      },
+      getUserInfo2() {
+        console.log(this.signStatus);
+
+        let url = 'http://localhost:9001/user';
+        AxiosUtil.get(url, null)
+          .then(res => {
+            if (res.success) {
+              console.log(res);
+              this.userInfo=res.data;
             } else {
               Message.error({message: "请求失败"});
             }

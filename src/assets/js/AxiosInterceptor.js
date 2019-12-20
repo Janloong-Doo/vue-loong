@@ -4,10 +4,8 @@ import {Message} from 'element-ui'
 import mVue from '../../main'
 
 axios.interceptors.request.use(config => {
-    axios.defaults.withCredentials = true;
   if (config.method === 'POST' || config.method === 'post') {
     console.log('vue开启credentials');
-    axios.defaults.withCredentials = true;
     axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
   }
   // 每次发送请求之前判断vuex中是否存在token
@@ -15,7 +13,9 @@ axios.interceptors.request.use(config => {
   // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
   // const token = store.state.token;
   // token && (config.headers.Authorization = token);
-
+  //不生效
+  // axios.defaults.withCredentials = true;
+  config.withCredentials = true;
   return config;
 }, err => {
   Message.error({message: '请求超时!'});

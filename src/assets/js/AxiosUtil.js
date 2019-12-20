@@ -5,10 +5,11 @@ export default class AxiosUtil {
 
   static get(url, param) {
 
-    param = param == null ? {} : {params: param};
-    console.log(param);
+    // param = param == null ? {} : {params: param};
+    // console.log(param);
     let config = {
-      withCredentials: true
+      // withCredentials: true,
+      params:param
     };
     return new Promise((resolve, reject) => {
       axios.get(url, config).then(res => {
@@ -26,11 +27,10 @@ export default class AxiosUtil {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      withCredentials: true
+      // withCredentials: true
     };
 
     return new Promise((resolve, reject) => {
-      // axios.defaults.withCredentials = true;
       axios.post(url, qs.stringify(param), config)
         .then(res => {
           resolve(res)
