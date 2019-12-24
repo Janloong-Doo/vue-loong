@@ -6,6 +6,8 @@
 			<router-link to="/spring/index">Index</router-link>
 			|
 			<router-link to="/spring/doo/user">User</router-link>
+			|
+			<router-link to="/spring/oauth">oauth</router-link>
 		</div>
 		<router-view/>
 	</div>

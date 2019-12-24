@@ -58,6 +58,14 @@ export default new Router({
           props: (route) => ({name: 'doo', age: '25', id: route.params.id}),
           component: () =>
             import(/* webpackChunkName: "about" */ "./views/spring/User.vue")
+        },
+
+        {
+          name: 'OAuth',
+          path: "/spring/oauth",
+          // props: true,
+          component: () =>
+            import(/* webpackChunkName: "about" */ "./views/spring/OAuth.vue")
         }
 
 
