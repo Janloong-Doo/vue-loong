@@ -106,6 +106,10 @@
               username: username,
               password: password,
               imageCode: validateCode
+              , grant_type: 'password'
+              , scope: 'read'
+              , client_id: 'fooClientIdPassword'
+              , client_secret: 'doo'
             })
               .then(res => {
                 console.log(res);
