@@ -69,14 +69,11 @@
       },
       getResourceInfo() {
         let parmas = {
-          username: 'doo'
-          , password: 'doo'
-          , grant_type: 'password'
-          , scope: 'read'
-          , client_id: 'fooClientIdPassword'
-          , client_secret: 'doo'
+          // token: this.token
+          access_token: this.token
+
         };
-        Api.getToken(parmas).then(value => {
+        Api.getResourceInfo(parmas).then(value => {
           console.log('result value');
           console.log(value);
         }).catch(reason => {
